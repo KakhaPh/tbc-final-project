@@ -1,0 +1,38 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="CrossBrowserSuite" parallel="tests" thread-count="3">
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+
+    <test name="Chromium">
+        <parameter name="browser" value="chromium"/>
+        <parameter name="headless" value="false"/>
+        <classes>
+            <class name="ge.tbc.testautomation.tests.CurrencyExchangeTests"/>
+        </classes>
+    </test>
+    <test name="Firefox">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="headless" value="false"/>
+        <classes>
+            <class name="ge.tbc.testautomation.tests.CurrencyExchangeTests"/>
+        </classes>
+    </test>
+    <test name="WebKit">
+        <parameter name="browser" value="webkit"/>
+        <parameter name="headless" value="false"/>
+        <classes>
+            <class name="ge.tbc.testautomation.tests.CurrencyExchangeTests"/>
+        </classes>
+    </test>
+
+    <!-- Test Mobile // this need review and re-test    -->
+    <!--    <test name="MobileChromium">-->
+    <!--        <parameter name="browser" value="chromium"/>-->
+    <!--        <parameter name="headless" value="false"/>-->
+    <!--        <parameter name="mobile" value="true"/>-->
+    <!--        <classes>-->
+    <!--            <class name="ge.tbc.testautomation.tests.CurrencyExchangeTests"/>-->
+    <!--        </classes>-->
+    <!--    </test>-->
+</suite>
