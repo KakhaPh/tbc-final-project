@@ -2,25 +2,23 @@ package ge.tbc.testautomation.steps;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import ge.tbc.testautomation.data.Constants;
 import ge.tbc.testautomation.helper.DateHelper;
 import ge.tbc.testautomation.pages.BasePage;
 import ge.tbc.testautomation.pages.CurrenciesPage;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.AssertJUnit.fail;
 
 public class CurrenciesSteps {
     private final CurrenciesPage currenciesPage;
     private final BasePage basePage;
+
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public CurrenciesSteps(Page page) {
         this.currenciesPage = new CurrenciesPage(page);
@@ -36,7 +34,7 @@ public class CurrenciesSteps {
         currenciesPage.currencyBtn.click();
     }
 
-    public CurrenciesSteps verifyPopularCurrencies() {
+    public void verifyPopularCurrencies() {
         currenciesPage.popularCurrencyItems.first().waitFor(new Locator.WaitForOptions()
                 .setState(WaitForSelectorState.VISIBLE));
 
@@ -59,10 +57,9 @@ public class CurrenciesSteps {
                 throw new AssertionError(Constants.NOT_FOUND + expectedCurrency);
             }
         }
-        return this;
     }
 
-    public CurrenciesSteps verifyDefaultCurrencyValues() {
+    public void verifyDefaultCurrencyValues() {
         String firstCurrency = currenciesPage.currencySelectFirst.innerText().trim();
         String secondCurrency = currenciesPage.currencySelectSecond.innerText().trim();
 
@@ -73,7 +70,6 @@ public class CurrenciesSteps {
             throw new AssertionError(Constants.SECOND_DEFAULT_CURRENCY + secondCurrency);
         }
 
-        return this;
     }
 
     public CurrenciesSteps verifyConversion(String currencyCode, double inputAmount, boolean isReversed) {
@@ -175,9 +171,6 @@ public class CurrenciesSteps {
         return this;
     }
 
-    private LocalDate startDate;
-    private LocalDate endDate;
-
     public CurrenciesSteps openUSDHistoryModal() {
         currenciesPage.usdHistoryModal.click();
         return this;
@@ -218,8 +211,6 @@ public class CurrenciesSteps {
 
         return this;
     }
-
-// ==================== Private Helper Methods ====================
 
     private void waitForDateInput() {
         currenciesPage.selectHistoryDatesInput.waitFor(new Locator.WaitForOptions()
@@ -379,8 +370,6 @@ public class CurrenciesSteps {
         ));
     }
 
-// ==================== Getters ====================
-
     public LocalDate getStartDate() {
         return startDate;
     }
@@ -388,8 +377,6 @@ public class CurrenciesSteps {
     public LocalDate getEndDate() {
         return endDate;
     }
-
-// ==================== Inner Class ====================
 
     private static class DateValidationResult {
         private final List<String> validDates = new ArrayList<>();
@@ -444,79 +431,4 @@ public class CurrenciesSteps {
             return String.join("\n", invalidDates);
         }
     }
-
-
-    //    public void checkIfGelValueIsCorrectlyWrittenBelowCalculator() {
-    //
-    //    }
-
-    //    public CurrenciesSteps verifyConversion(String currencyCode, double inputAmount) {
-    //        double rate = Double.parseDouble(currenciesPage.buyRate(currencyCode).innerText().trim());
-    //        double result = Double.parseDouble(currenciesPage.currencyInputTwo.inputValue().trim());
-    //
-    //        double expected = inputAmount * rate;
-    //
-    //        if (Math.abs(result - expected) > 0.001) {
-    //            throw new AssertionError(Constants.EXPECTED + expected + Constants.BUT_GOT + result);
-    //        }
-    //        return this;
-    //    }
-
-    //    public CurrenciesSteps verifyConversion(String currencyCode, double inputAmount) {
-    //        double rate = Double.parseDouble(currenciesPage.buyRate(currencyCode).innerText().trim());
-    //        double expected = inputAmount * rate;
-    //
-    //        double roundedExpected = Math.round(expected * 100.0) / 100.0;
-    //
-    //        double result = 0;
-    //        int tries = 0;
-    //
-    //        while (tries < 30) {
-    //            String valueText = currenciesPage.currencyInputTwo.inputValue().trim();
-    //            if (!valueText.isEmpty()) {
-    //                result = Double.parseDouble(valueText);
-    //            }
-    //
-    //            if (Math.abs(result - roundedExpected) < 0.001) {
-    //                break;
-    //            }
-    //
-    //            try { Thread.sleep(100); } catch (InterruptedException ignored) {}
-    //            tries++;
-    //        }
-    //
-    //        if (Math.abs(result - roundedExpected) > 0.001) {
-    //            throw new AssertionError(Constants.EXPECTED + roundedExpected + Constants.BUT_GOT + result);
-    //        }
-    //
-    //        return this;
-    //    }
-
-    //    public CurrenciesSteps checkValueIsCorrectlyIndicatedBelowCalculator(String currencyCode) {
-    //        Locator rateLocator = currenciesPage.buyRate(currencyCode);
-    //        rateLocator.waitFor(new Locator.WaitForOptions()
-    //                .setState(WaitForSelectorState.VISIBLE)
-    //                .setTimeout(3000));
-    //
-    //        double expectedValue = Double.parseDouble(rateLocator.innerText().trim());
-    //
-    //        double actualValue = 0;
-    //        int tries = 0;
-    //        while (tries < 30) {
-    //            String calculatorText = currenciesPage.actualCurrencyPriceField.innerText().trim();
-    //            String[] parts = calculatorText.split(" ");
-    //            actualValue = Double.parseDouble(parts[3]);
-    //
-    //            if (Math.abs(actualValue - expectedValue) < 0.001) break;
-    //
-    //            try { Thread.sleep(100); } catch (InterruptedException ignored) {}
-    //            tries++;
-    //        }
-    //
-    //        if (Math.abs(actualValue - expectedValue) > 0.001) {
-    //            System.out.println(Constants.EXPECTED + expectedValue + Constants.BUT_GOT + actualValue);
-    //        }
-    //
-    //        return this;
-    //    }
 }
