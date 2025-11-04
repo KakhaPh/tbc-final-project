@@ -8,21 +8,33 @@
         <parameter name="browser" value="chromium"/>
         <parameter name="headless" value="false"/>
         <classes>
-            <class name="ge.tbc.testautomation.tests.CurrencyExchangeTests"/>
+            <class name="ge.tbc.testautomation.tests.ChangeConversionConditionTest"/>
+            <class name="ge.tbc.testautomation.tests.CheckDefaultExchangeRateTest"/>
+            <class name="ge.tbc.testautomation.tests.CommercialExchangeRateHistoryTest"/>
+            <class name="ge.tbc.testautomation.tests.MinimumAmountConversionTest"/>
+            <class name="ge.tbc.testautomation.tests.UpdateConversionResultTest"/>
         </classes>
     </test>
     <test name="Firefox">
         <parameter name="browser" value="firefox"/>
         <parameter name="headless" value="false"/>
         <classes>
-            <class name="ge.tbc.testautomation.tests.CurrencyExchangeTests"/>
+            <class name="ge.tbc.testautomation.tests.ChangeConversionConditionTest"/>
+            <class name="ge.tbc.testautomation.tests.CheckDefaultExchangeRateTest"/>
+            <class name="ge.tbc.testautomation.tests.CommercialExchangeRateHistoryTest"/>
+            <class name="ge.tbc.testautomation.tests.MinimumAmountConversionTest"/>
+            <class name="ge.tbc.testautomation.tests.UpdateConversionResultTest"/>
         </classes>
     </test>
     <test name="WebKit">
         <parameter name="browser" value="webkit"/>
         <parameter name="headless" value="false"/>
         <classes>
-            <class name="ge.tbc.testautomation.tests.CurrencyExchangeTests"/>
+            <class name="ge.tbc.testautomation.tests.ChangeConversionConditionTest"/>
+            <class name="ge.tbc.testautomation.tests.CheckDefaultExchangeRateTest"/>
+            <class name="ge.tbc.testautomation.tests.CommercialExchangeRateHistoryTest"/>
+            <class name="ge.tbc.testautomation.tests.MinimumAmountConversionTest"/>
+            <class name="ge.tbc.testautomation.tests.UpdateConversionResultTest"/>
         </classes>
     </test>
 
@@ -32,7 +44,11 @@
     <!--        <parameter name="headless" value="false"/>-->
     <!--        <parameter name="mobile" value="true"/>-->
     <!--        <classes>-->
-    <!--            <class name="ge.tbc.testautomation.tests.CurrencyExchangeTests"/>-->
+    <!--    <class name="ge.tbc.testautomation.tests.ChangeConversionConditionTest"/>-->
+    <!--    <class name="ge.tbc.testautomation.tests.CheckDefaultExchangeRateTest"/>-->
+    <!--    <class name="ge.tbc.testautomation.tests.CommercialExchangeRateHistoryTest"/>-->
+    <!--    <class name="ge.tbc.testautomation.tests.MinimumAmountConversionTest"/>-->
+    <!--    <class name="ge.tbc.testautomation.tests.UpdateConversionResultTest"/>-->
     <!--        </classes>-->
     <!--    </test>-->
 </suite>
