@@ -2,11 +2,21 @@ package ge.tbc.testautomation.steps;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import ge.tbc.testautomation.data.Constants;
+import ge.tbc.testautomation.helper.DateHelper;
 import ge.tbc.testautomation.pages.BasePage;
 import ge.tbc.testautomation.pages.CurrenciesPage;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.AssertJUnit.fail;
 
 public class CurrenciesSteps {
     private final CurrenciesPage currenciesPage;
@@ -145,7 +155,6 @@ public class CurrenciesSteps {
         return this;
     }
 
-
     public CurrenciesSteps selectOneCurrency() {
         currenciesPage.currencySelectFirst.click();
         return this;
@@ -165,6 +174,277 @@ public class CurrenciesSteps {
         currenciesPage.conditionChangeBtn.click();
         return this;
     }
+
+    private LocalDate startDate;
+    private LocalDate endDate;
+
+    public CurrenciesSteps openUSDHistoryModal() {
+        currenciesPage.usdHistoryModal.click();
+        return this;
+    }
+
+    public CurrenciesSteps waitForHistoryModal() {
+        currenciesPage.usdHistoryModal.waitFor(new Locator.WaitForOptions()
+                .setState(WaitForSelectorState.VISIBLE)
+                .setTimeout(Constants.MODAL_TIMEOUT));
+        return this;
+    }
+
+    public CurrenciesSteps selectRandomDateRangeBeforeToday() {
+        waitForDateInput();
+
+        LocalDate today = LocalDate.now();
+        this.endDate = today.minusDays(generateRandomDays(Constants.MIN_DAYS_BEFORE_END, Constants.MAX_DAYS_BEFORE_END));
+        this.startDate = endDate.minusDays(generateRandomDays(Constants.MIN_RANGE_DAYS, Constants.MAX_RANGE_DAYS));
+
+        String dateRange = formatDateRange(startDate, endDate);
+        fillDateRange(dateRange);
+
+        logDateSelection(dateRange);
+
+        return this;
+    }
+
+    public CurrenciesSteps verifyDatesInRange() {
+        validateDateSelection();
+        waitForDataLoad();
+
+        List<String> historyDates = fetchHistoryDates();
+        validateHistoryData(historyDates);
+
+        DateValidationResult result = validateDates(historyDates);
+        logValidationSummary(result);
+        handleValidationResult(result);
+
+        return this;
+    }
+
+// ==================== Private Helper Methods ====================
+
+    private void waitForDateInput() {
+        currenciesPage.selectHistoryDatesInput.waitFor(new Locator.WaitForOptions()
+                .setState(WaitForSelectorState.VISIBLE)
+                .setTimeout(Constants.INPUT_TIMEOUT));
+    }
+
+    private int generateRandomDays(int min, int max) {
+        return ThreadLocalRandom.current().nextInt(min, max + 1);
+    }
+
+    private String formatDateRange(LocalDate start, LocalDate end) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATE_FORMAT);
+        return start.format(formatter) + Constants.DATE_RANGE_SEPARATOR + end.format(formatter);
+    }
+
+    private void fillDateRange(String dateRange) {
+        currenciesPage.selectHistoryDatesInput.fill(dateRange);
+        currenciesPage.selectHistoryDatesInput.press(Constants.ENTER_KEY);
+    }
+
+    private void logDateSelection(String dateRange) {
+        System.out.println(String.format(Constants.LOG_SELECTED_RANGE, dateRange));
+        System.out.println(String.format(Constants.LOG_START_DATE, startDate));
+        System.out.println(String.format(Constants.LOG_END_DATE, endDate));
+    }
+
+    private void validateDateSelection() {
+        if (startDate == null || endDate == null) {
+            throw new IllegalStateException(Constants.DATES_NOT_SELECTED_ERROR);
+        }
+    }
+
+    private void waitForDataLoad() {
+        try {
+            Thread.sleep(Constants.DATA_LOAD_WAIT);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(Constants.THREAD_INTERRUPTED_ERROR, e);
+        }
+    }
+
+    private List<String> fetchHistoryDates() {
+        return currenciesPage.historyDateCells.allInnerTexts();
+    }
+
+    private void validateHistoryData(List<String> historyDates) {
+        if (historyDates.isEmpty()) {
+            throw new AssertionError(Constants.NO_HISTORY_RECORDS_ERROR);
+        }
+        System.out.println(String.format(Constants.LOG_FOUND_ENTRIES, historyDates.size()));
+        System.out.println(String.format(Constants.LOG_EXPECTED_RANGE, startDate, endDate));
+    }
+
+    private DateValidationResult validateDates(List<String> historyDates) {
+        DateValidationResult result = new DateValidationResult();
+
+        for (String dateText : historyDates) {
+            if (dateText == null || dateText.trim().isEmpty()) {
+                continue;
+            }
+
+            processDateEntry(dateText.trim(), result);
+        }
+
+        return result;
+    }
+
+    private void processDateEntry(String dateText, DateValidationResult result) {
+        try {
+            LocalDate parsedDate = parseDateFromText(dateText);
+
+            if (isDateInRange(parsedDate)) {
+                result.addValidDate(parsedDate, dateText);
+                System.out.println(String.format(Constants.LOG_VALID_DATE, parsedDate, dateText));
+            } else {
+                result.addInvalidDate(parsedDate, dateText);
+                System.err.println(String.format(Constants.LOG_INVALID_DATE, parsedDate, startDate, endDate));
+            }
+        } catch (Exception e) {
+            result.incrementParseErrors();
+            System.err.println(String.format(Constants.LOG_PARSE_ERROR, dateText, e.getMessage()));
+        }
+    }
+
+    private LocalDate parseDateFromText(String dateText) {
+        String datePart = extractDatePart(dateText);
+        String[] parts = datePart.split("\\s+");
+
+        if (parts.length < 2) {
+            throw new IllegalArgumentException(Constants.UNEXPECTED_DATE_FORMAT);
+        }
+
+        int day = Integer.parseInt(parts[0]);
+        String monthName = parts[1];
+
+        Integer month = DateHelper.getGeorgianMonth(monthName);
+        if (month == null) {
+            throw new IllegalArgumentException(String.format(Constants.UNKNOWN_MONTH_ERROR, monthName));
+        }
+
+        int year = determineYear(month);
+        return LocalDate.of(year, month, day);
+    }
+
+    private String extractDatePart(String dateText) {
+        return dateText.split(",")[0].trim();
+    }
+
+    private int determineYear(int month) {
+        if (startDate.getYear() == endDate.getYear()) {
+            return startDate.getYear();
+        }
+
+        return (month >= startDate.getMonthValue()) ? startDate.getYear() : endDate.getYear();
+    }
+
+    private boolean isDateInRange(LocalDate date) {
+        return !date.isBefore(startDate) && !date.isAfter(endDate);
+    }
+
+    private void logValidationSummary(DateValidationResult result) {
+        System.out.println(Constants.LOG_SUMMARY_HEADER);
+        System.out.println(String.format(Constants.LOG_TOTAL_CHECKED, result.getTotalChecked()));
+        System.out.println(String.format(Constants.LOG_VALID_COUNT, result.getValidCount()));
+        System.out.println(String.format(Constants.LOG_INVALID_COUNT, result.getInvalidCount()));
+        System.out.println(String.format(Constants.LOG_PARSE_ERRORS, result.getParseErrors()));
+    }
+
+    private void handleValidationResult(DateValidationResult result) {
+        if (result.hasParseErrorsOnly()) {
+            throw new AssertionError(String.format(
+                    Constants.ALL_PARSE_ERRORS,
+                    result.getParseErrors()
+            ));
+        }
+
+        if (result.hasInvalidDates()) {
+            throw new AssertionError(String.format(
+                    Constants.DATES_OUTSIDE_RANGE_ERROR,
+                    result.getInvalidCount(),
+                    startDate,
+                    endDate,
+                    result.getInvalidDatesReport()
+            ));
+        }
+
+        if (result.hasNoValidDates()) {
+            throw new AssertionError(Constants.NO_VALID_DATES_ERROR);
+        }
+
+        System.out.println(String.format(
+                Constants.LOG_SUCCESS,
+                result.getValidCount(),
+                startDate,
+                endDate
+        ));
+    }
+
+// ==================== Getters ====================
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+// ==================== Inner Class ====================
+
+    private static class DateValidationResult {
+        private final List<String> validDates = new ArrayList<>();
+        private final List<String> invalidDates = new ArrayList<>();
+        private int parseErrors = 0;
+        private int totalChecked = 0;
+
+        public void addValidDate(LocalDate date, String originalText) {
+            validDates.add(date.toString());
+            totalChecked++;
+        }
+
+        public void addInvalidDate(LocalDate date, String originalText) {
+            invalidDates.add(date + " (from: " + originalText + ")");
+            totalChecked++;
+        }
+
+        public void incrementParseErrors() {
+            parseErrors++;
+            totalChecked++;
+        }
+
+        public int getTotalChecked() {
+            return totalChecked;
+        }
+
+        public int getValidCount() {
+            return validDates.size();
+        }
+
+        public int getInvalidCount() {
+            return invalidDates.size();
+        }
+
+        public int getParseErrors() {
+            return parseErrors;
+        }
+
+        public boolean hasParseErrorsOnly() {
+            return parseErrors > 0 && validDates.isEmpty();
+        }
+
+        public boolean hasInvalidDates() {
+            return !invalidDates.isEmpty();
+        }
+
+        public boolean hasNoValidDates() {
+            return validDates.isEmpty();
+        }
+
+        public String getInvalidDatesReport() {
+            return String.join("\n", invalidDates);
+        }
+    }
+
 
     //    public void checkIfGelValueIsCorrectlyWrittenBelowCalculator() {
     //
