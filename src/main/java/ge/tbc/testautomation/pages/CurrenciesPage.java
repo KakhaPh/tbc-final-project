@@ -19,6 +19,9 @@ public class CurrenciesPage {
     public final Locator eurBuyActualValue;
     public final Locator gbpBuyActualValue;
     public final Locator conditionChangeBtn;
+    public final Locator usdHistoryModal;
+    public final Locator selectHistoryDatesInput;
+    public final Locator historyDateCells;
 
     public CurrenciesPage(Page page) {
         this.page = page;
@@ -35,6 +38,11 @@ public class CurrenciesPage {
         this.gbpBuyActualValue = buyRate("GBP");
         this.actualCurrencyPriceField = page.locator("//div[@class='tbcx-pw-exchange-rates-calculator__description ng-star-inserted']");
         this.conditionChangeBtn = page.locator("//tbcx-icon[@class='ng-star-inserted' and contains(text(), 'swap-alt-outlined')]");
+        this.usdHistoryModal = page.locator("//div[@comp-id='190']");
+        this.selectHistoryDatesInput = page.locator("//input[contains(@class, 'tbcx-pw-datepicker__input')]");
+        this.historyDateCells = page.locator(
+                "//tbcx-pw-exchange-rates-history//div[@comp-id and @col-id='date']//span[@class='tbcx-pw-table-cell__content__subtitle ng-star-inserted']"
+        );
     }
 
     public Locator buyRate(String currencyCode) {
