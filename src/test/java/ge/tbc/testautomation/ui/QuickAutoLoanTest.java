@@ -1,26 +1,20 @@
-package ge.tbc.testautomation.tests;
+package ge.tbc.testautomation.ui;
 
-import ge.tbc.testautomation.runners.BaseTest;
-import ge.tbc.testautomation.steps.HomeSteps;
-import ge.tbc.testautomation.steps.QuickAutoLoanSteps;
-import org.testng.annotations.BeforeClass;
+import ge.tbc.testautomation.runners.QuickLoan;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 import java.math.BigDecimal;
 
 import static ge.tbc.testautomation.data.Constants.*;
 
-
-@Test(description="სესხის თანხა მინიმალურ ზღვარზე ნაკლებია [FIN-T6]")
-public class QuickAutoLoanTest extends BaseTest {
-    HomeSteps homePageSteps;
-    QuickAutoLoanSteps quickAutoLoanSteps;
-
-    @BeforeClass
-    public void init() {
-        homePageSteps = new HomeSteps(page);
-        quickAutoLoanSteps =new QuickAutoLoanSteps(page);
-    }
-
+@Epic("ფინანსები")
+@Feature("სწარფი ავტო სესხი")
+@Story("სესხის თანხა მინიმალურ ზღვარზე ნაკლებია [FIN-T6]")
+@Owner("მარიამ უბირია")
+public class QuickAutoLoanTest extends QuickLoan {
 
     @Test(priority = 1, description = "ავტო სესხის გვერდზე გადასვლა")
     public void hoverToMegaMenu() {
