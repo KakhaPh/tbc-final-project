@@ -14,29 +14,29 @@ pool:
 
 jobs:
   - job: execute_tests
-    displayName: 'Run Test Automation with Allure Report'
+    displayName: 'Run Playwright Tests with Allure Report'
     continueOnError: false
-    
+
     steps:
+      - checkout: self
+
       - task: Bash@3
-        displayName: 'Prepare Environment'
         inputs:
           targetType: 'inline'
           script: |
             sudo apt-get update -y
-            sudo apt-get install -y openjdk-21-jdk
+            sudo apt-get install -y openjdk-21-jdk wget unzip
             java -version
             wget -q https://github.com/allure-framework/allure2/releases/download/2.35.1/allure-2.35.1.tgz
             sudo tar -xzf allure-2.35.1.tgz -C /opt/
-            sudo ln -s /opt/allure-2.35.1/bin/allure /usr/bin/allure
+            sudo ln -sf /opt/allure-2.35.1/bin/allure /usr/bin/allure
             allure --version
 
       - task: Maven@4
-        displayName: 'Run Automated Tests'
         inputs:
           mavenPomFile: 'pom.xml'
           goals: 'clean test'
-          options: '-DsuiteXmlFile=testng.xml'
+          options: '-DsuiteXmlFile=testng.xml -Dheadless=true'
           publishJUnitResults: true
           testResultsFiles: '**/surefire-reports/TEST-*.xml'
           javaHomeOption: 'JDKVersion'
@@ -45,15 +45,15 @@ jobs:
         continueOnError: true
 
       - task: Bash@3
-        displayName: 'Generate Allure Report'
         inputs:
           targetType: 'inline'
           script: |
-            allure generate allure-results --clean -o allure-report || true
+            if [ -d "allure-results" ]; then
+              allure generate allure-results --clean -o allure-report
+            fi
         condition: always()
 
       - task: PublishBuildArtifacts@1
-        displayName: 'Publish Allure Report Artifact'
         inputs:
           PathtoPublish: 'allure-report'
           ArtifactName: 'AllureReport'
