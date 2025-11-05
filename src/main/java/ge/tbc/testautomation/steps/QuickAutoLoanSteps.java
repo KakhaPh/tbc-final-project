@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import static ge.tbc.testautomation.helper.LoanHelper.calculateExpectedMonthlyContribution;
 import static ge.tbc.testautomation.helper.LoanHelper.parseDecimalFromText;
 
-
 public class QuickAutoLoanSteps {
 
     Page page;
@@ -20,13 +19,11 @@ public class QuickAutoLoanSteps {
         this.quickLoanPage = new QuickLoanPage(page);
     }
 
-
     @Step("Choose Quick Loan Calculator")
     public QuickAutoLoanSteps clickOnQuickLoanCalculator() {
         quickLoanPage.quickLoanCalculator.click();
         return this;
     }
-
 
     @Step("Click By Income Button")
     public QuickAutoLoanSteps clickByIncomeButton() {
@@ -46,52 +43,48 @@ public class QuickAutoLoanSteps {
         return parseDecimalFromText(text);
     }
 
-    @Step("Validate Contribution is correct")
+    @Step("Validate Contribution Is Correct")
     public void validateContributionIsCorrect(BigDecimal value, BigDecimal value2) {
         Assert.assertEquals(value, value2);
     }
 
-    @Step("Calculate Expected Monthly Contribution")
+    @Step("Calculate Expected Monthly Contribution from Income: {income}")
     public static BigDecimal ExpectedMonthlyContribution(String income) {
         BigDecimal incomeDecimal = new BigDecimal(income);
         return calculateExpectedMonthlyContribution(incomeDecimal);
     }
 
-
+    @Step("Check that default income value equals: {income}")
     public void checkDefaultIncomeValues(String income) {
         String defaultvalue = quickLoanPage.defaultIncome.inputValue();
         Assert.assertEquals(defaultvalue, income);
     }
 
-
+    @Step("Get Monthly Contribution With Loan")
     public BigDecimal getMonthlyContributionWithLoan() {
-
         String text = quickLoanPage.monthlyContributionWithLoan.innerText();
         return parseDecimalFromText(text);
     }
 
-
+    @Step("Get Loan Value")
     public BigDecimal getLoanValue() {
         String text = quickLoanPage.loanValue.textContent();
         return parseDecimalFromText(text);
     }
 
+    @Step("Enter Loan Amount: {loanAmount}")
     public void enterLoanAmount(String loanAmount) {
         quickLoanPage.enterIncomeFieldWithLoan.first().fill(loanAmount);
     }
 
+    @Step("Validate Default Loan Value Has Not Changed")
     public QuickAutoLoanSteps validateDefaultLoanIsNotChanged(BigDecimal defaultLoan, BigDecimal loanAfter) {
         Assert.assertEquals(defaultLoan, loanAfter);
         return this;
     }
 
+    @Step("Validate Contributions Have Not Changed")
     public void validateContributionsNotChanged(BigDecimal defaultContribution, BigDecimal contributionAfter) {
         Assert.assertEquals(defaultContribution, contributionAfter);
     }
-
-
 }
-
-
-
-
