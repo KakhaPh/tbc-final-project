@@ -13,6 +13,8 @@
             <class name="ge.tbc.testautomation.tests.CommercialExchangeRateHistoryTest"/>
             <class name="ge.tbc.testautomation.tests.MinimumAmountConversionTest"/>
             <class name="ge.tbc.testautomation.tests.UpdateConversionResultTest"/>
+            <class name="ge.tbc.testautomation.tests.QuickAutoLoanTest"/>
+            <class name="ge.tbc.testautomation.tests.QuickAutoLoanIncomeTest"/>
         </classes>
     </test>
     <test name="Firefox">
@@ -24,6 +26,8 @@
             <class name="ge.tbc.testautomation.tests.CommercialExchangeRateHistoryTest"/>
             <class name="ge.tbc.testautomation.tests.MinimumAmountConversionTest"/>
             <class name="ge.tbc.testautomation.tests.UpdateConversionResultTest"/>
+            <class name="ge.tbc.testautomation.tests.QuickAutoLoanTest"/>
+            <class name="ge.tbc.testautomation.tests.QuickAutoLoanIncomeTest"/>
         </classes>
     </test>
     <test name="WebKit">
@@ -35,6 +39,8 @@
             <class name="ge.tbc.testautomation.tests.CommercialExchangeRateHistoryTest"/>
             <class name="ge.tbc.testautomation.tests.MinimumAmountConversionTest"/>
             <class name="ge.tbc.testautomation.tests.UpdateConversionResultTest"/>
+            <class name="ge.tbc.testautomation.tests.QuickAutoLoanTest"/>
+            <class name="ge.tbc.testautomation.tests.QuickAutoLoanIncomeTest"/>
         </classes>
     </test>
 
@@ -49,6 +55,8 @@
     <!--    <class name="ge.tbc.testautomation.tests.CommercialExchangeRateHistoryTest"/>-->
     <!--    <class name="ge.tbc.testautomation.tests.MinimumAmountConversionTest"/>-->
     <!--    <class name="ge.tbc.testautomation.tests.UpdateConversionResultTest"/>-->
+    <!--    <class name="ge.tbc.testautomation.tests.QuickAutoLoanTest"/>-->
+    <!--    <class name="ge.tbc.testautomation.tests.QuickAutoLoanIncomeTest"/>-->
     <!--        </classes>-->
     <!--    </test>-->
 </suite>
