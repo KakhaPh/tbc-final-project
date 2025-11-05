@@ -23,7 +23,8 @@ public class BaseTest {
                       @Optional("false") String headlessParam,
                       @Optional("false") String mobileParam) {
         playwright = Playwright.create();
-        boolean headless = Boolean.parseBoolean(headlessParam);
+//        boolean headless = Boolean.parseBoolean(headlessParam);
+        boolean headless = Boolean.parseBoolean(System.getProperty("headless", headlessParam));
         boolean mobile = Boolean.parseBoolean(mobileParam);
 
         switch (browserName.toLowerCase()) {
