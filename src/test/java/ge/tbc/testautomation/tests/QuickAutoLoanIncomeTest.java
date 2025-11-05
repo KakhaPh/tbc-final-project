@@ -4,10 +4,7 @@ import ge.tbc.testautomation.steps.HomeSteps;
 import ge.tbc.testautomation.steps.QuickAutoLoanSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-
 import java.math.BigDecimal;
-
 import static ge.tbc.testautomation.data.Constants.*;
 
 
@@ -48,20 +45,16 @@ public class QuickAutoLoanIncomeTest extends BaseTest {
         BigDecimal actualContribution = quickAutoLoanSteps.getActualMonthlyContribution();
         BigDecimal expectedContribution = quickAutoLoanSteps.ExpectedMonthlyContribution(DEFAULT_INCOME);
         quickAutoLoanSteps.validateContributionIsCorrect(actualContribution,expectedContribution);
-
-
     }
 
     @Test(priority = 4, description = "შემოსავლის თანხის ოდენობის ცვლილება")
     public void validateContributionForIncomeBelow1500() {
-        quickAutoLoanSteps.enterIncome(INCOME);
 
+        quickAutoLoanSteps.enterIncome(INCOME);
         BigDecimal value1 = quickAutoLoanSteps.getActualMonthlyContribution();
         BigDecimal value2 = quickAutoLoanSteps.ExpectedMonthlyContribution(INCOME);
-
         quickAutoLoanSteps.validateContributionIsCorrect(value1,value2);
     }
-
 
 
 
