@@ -7,41 +7,27 @@
     <test name="Chromium">
         <parameter name="browser" value="chromium"/>
         <parameter name="headless" value="false"/>
-        <classes>
-            <class name="ge.tbc.testautomation.ui.ChangeConversionConditionTest"/>
-            <class name="ge.tbc.testautomation.ui.CheckDefaultExchangeRateTest"/>
-            <class name="ge.tbc.testautomation.ui.CommercialExchangeRateHistoryTest"/>
-            <class name="ge.tbc.testautomation.ui.MinimumAmountConversionTest"/>
-            <class name="ge.tbc.testautomation.ui.UpdateConversionResultTest"/>
-            <class name="ge.tbc.testautomation.ui.QuickAutoLoanTest"/>
-            <class name="ge.tbc.testautomation.ui.QuickAutoLoanIncomeTest"/>
-        </classes>
+        <packages>
+            <package name="ge.tbc.testautomation.api"/>
+            <package name="ge.tbc.testautomation.ui"/>
+        </packages>
+
     </test>
     <test name="Firefox">
         <parameter name="browser" value="firefox"/>
         <parameter name="headless" value="false"/>
-        <classes>
-            <class name="ge.tbc.testautomation.ui.ChangeConversionConditionTest"/>
-            <class name="ge.tbc.testautomation.ui.CheckDefaultExchangeRateTest"/>
-            <class name="ge.tbc.testautomation.ui.CommercialExchangeRateHistoryTest"/>
-            <class name="ge.tbc.testautomation.ui.MinimumAmountConversionTest"/>
-            <class name="ge.tbc.testautomation.ui.UpdateConversionResultTest"/>
-            <class name="ge.tbc.testautomation.ui.QuickAutoLoanTest"/>
-            <class name="ge.tbc.testautomation.ui.QuickAutoLoanIncomeTest"/>
-        </classes>
+        <packages>
+            <package name="ge.tbc.testautomation.api"/>
+            <package name="ge.tbc.testautomation.ui"/>
+        </packages>
     </test>
     <test name="WebKit">
         <parameter name="browser" value="webkit"/>
         <parameter name="headless" value="false"/>
-        <classes>
-            <class name="ge.tbc.testautomation.ui.ChangeConversionConditionTest"/>
-            <class name="ge.tbc.testautomation.ui.CheckDefaultExchangeRateTest"/>
-            <class name="ge.tbc.testautomation.ui.CommercialExchangeRateHistoryTest"/>
-            <class name="ge.tbc.testautomation.ui.MinimumAmountConversionTest"/>
-            <class name="ge.tbc.testautomation.ui.UpdateConversionResultTest"/>
-            <class name="ge.tbc.testautomation.ui.QuickAutoLoanTest"/>
-            <class name="ge.tbc.testautomation.ui.QuickAutoLoanIncomeTest"/>
-        </classes>
+        <packages>
+            <package name="ge.tbc.testautomation.api"/>
+            <package name="ge.tbc.testautomation.ui"/>
+        </packages>
     </test>
 
     <!-- Test Mobile // this need review and re-test    -->
