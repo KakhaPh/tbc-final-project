@@ -8,33 +8,39 @@
         <parameter name="browser" value="chromium"/>
         <parameter name="headless" value="false"/>
         <classes>
-            <class name="ge.tbc.testautomation.tests.ChangeConversionConditionTest"/>
-            <class name="ge.tbc.testautomation.tests.CheckDefaultExchangeRateTest"/>
-            <class name="ge.tbc.testautomation.tests.CommercialExchangeRateHistoryTest"/>
-            <class name="ge.tbc.testautomation.tests.MinimumAmountConversionTest"/>
-            <class name="ge.tbc.testautomation.tests.UpdateConversionResultTest"/>
+            <class name="ge.tbc.testautomation.ui.ChangeConversionConditionTest"/>
+            <class name="ge.tbc.testautomation.ui.CheckDefaultExchangeRateTest"/>
+            <class name="ge.tbc.testautomation.ui.CommercialExchangeRateHistoryTest"/>
+            <class name="ge.tbc.testautomation.ui.MinimumAmountConversionTest"/>
+            <class name="ge.tbc.testautomation.ui.UpdateConversionResultTest"/>
+            <class name="ge.tbc.testautomation.ui.QuickAutoLoanTest"/>
+            <class name="ge.tbc.testautomation.ui.QuickAutoLoanIncomeTest"/>
         </classes>
     </test>
     <test name="Firefox">
         <parameter name="browser" value="firefox"/>
         <parameter name="headless" value="false"/>
         <classes>
-            <class name="ge.tbc.testautomation.tests.ChangeConversionConditionTest"/>
-            <class name="ge.tbc.testautomation.tests.CheckDefaultExchangeRateTest"/>
-            <class name="ge.tbc.testautomation.tests.CommercialExchangeRateHistoryTest"/>
-            <class name="ge.tbc.testautomation.tests.MinimumAmountConversionTest"/>
-            <class name="ge.tbc.testautomation.tests.UpdateConversionResultTest"/>
+            <class name="ge.tbc.testautomation.ui.ChangeConversionConditionTest"/>
+            <class name="ge.tbc.testautomation.ui.CheckDefaultExchangeRateTest"/>
+            <class name="ge.tbc.testautomation.ui.CommercialExchangeRateHistoryTest"/>
+            <class name="ge.tbc.testautomation.ui.MinimumAmountConversionTest"/>
+            <class name="ge.tbc.testautomation.ui.UpdateConversionResultTest"/>
+            <class name="ge.tbc.testautomation.ui.QuickAutoLoanTest"/>
+            <class name="ge.tbc.testautomation.ui.QuickAutoLoanIncomeTest"/>
         </classes>
     </test>
     <test name="WebKit">
         <parameter name="browser" value="webkit"/>
         <parameter name="headless" value="false"/>
         <classes>
-            <class name="ge.tbc.testautomation.tests.ChangeConversionConditionTest"/>
-            <class name="ge.tbc.testautomation.tests.CheckDefaultExchangeRateTest"/>
-            <class name="ge.tbc.testautomation.tests.CommercialExchangeRateHistoryTest"/>
-            <class name="ge.tbc.testautomation.tests.MinimumAmountConversionTest"/>
-            <class name="ge.tbc.testautomation.tests.UpdateConversionResultTest"/>
+            <class name="ge.tbc.testautomation.ui.ChangeConversionConditionTest"/>
+            <class name="ge.tbc.testautomation.ui.CheckDefaultExchangeRateTest"/>
+            <class name="ge.tbc.testautomation.ui.CommercialExchangeRateHistoryTest"/>
+            <class name="ge.tbc.testautomation.ui.MinimumAmountConversionTest"/>
+            <class name="ge.tbc.testautomation.ui.UpdateConversionResultTest"/>
+            <class name="ge.tbc.testautomation.ui.QuickAutoLoanTest"/>
+            <class name="ge.tbc.testautomation.ui.QuickAutoLoanIncomeTest"/>
         </classes>
     </test>
 
@@ -44,11 +50,13 @@
     <!--        <parameter name="headless" value="false"/>-->
     <!--        <parameter name="mobile" value="true"/>-->
     <!--        <classes>-->
-    <!--    <class name="ge.tbc.testautomation.tests.ChangeConversionConditionTest"/>-->
-    <!--    <class name="ge.tbc.testautomation.tests.CheckDefaultExchangeRateTest"/>-->
-    <!--    <class name="ge.tbc.testautomation.tests.CommercialExchangeRateHistoryTest"/>-->
-    <!--    <class name="ge.tbc.testautomation.tests.MinimumAmountConversionTest"/>-->
-    <!--    <class name="ge.tbc.testautomation.tests.UpdateConversionResultTest"/>-->
+    <!--    <class name="ge.tbc.testautomation.ui.ChangeConversionConditionTest"/>-->
+    <!--    <class name="ge.tbc.testautomation.ui.CheckDefaultExchangeRateTest"/>-->
+    <!--    <class name="ge.tbc.testautomation.ui.CommercialExchangeRateHistoryTest"/>-->
+    <!--    <class name="ge.tbc.testautomation.ui.MinimumAmountConversionTest"/>-->
+    <!--    <class name="ge.tbc.testautomation.ui.UpdateConversionResultTest"/>-->
+    <!--    <class name="ge.tbc.testautomation.ui.QuickAutoLoanTest"/>-->
+    <!--    <class name="ge.tbc.testautomation.ui.QuickAutoLoanIncomeTest"/>-->
     <!--        </classes>-->
     <!--    </test>-->
 </suite>

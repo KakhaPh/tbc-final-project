@@ -49,28 +49,11 @@ public class BaseTest {
         }
 
         page = browserContext.newPage();
-
         page.navigate(Constants.BASE_URL);
 
         cookiesSteps = new CookiesSteps(page);
         cookiesSteps.acceptAllCookies();
-
-        currenciesSteps = new CurrenciesSteps(page);
-        currenciesSteps
-                .hoverOnHeaderPersonal()
-                .openCurrenciesPage();
-
     }
-
-//    @BeforeMethod
-//    public void setContext() {
-//        page.navigate(Constants.BASE_URL);
-//
-//        currenciesSteps = new CurrenciesSteps(page);
-//        currenciesSteps
-//                .hoverOnHeaderPersonal()
-//                .openCurrenciesPage();
-//    }
 
     @AfterClass
     public void tearDown() {
