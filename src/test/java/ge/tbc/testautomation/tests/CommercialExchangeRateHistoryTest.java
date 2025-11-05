@@ -1,43 +1,33 @@
 package ge.tbc.testautomation.tests;
 
-import ge.tbc.testautomation.runners.BaseTest;
+import ge.tbc.testautomation.runners.CurrenciesBase;
 import ge.tbc.testautomation.utils.RetryAnalyzer;
 import ge.tbc.testautomation.utils.RetryCount;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
-@Epic("Finance")
-@Feature("Currency Exchange")
-@Story("FIN-T5: Check history of commercial exchange rates for a specified period")
-@Owner("Kakha Phutkaradze")
-public class CommercialExchangeRateHistoryTest extends BaseTest {
+@Epic("ფინანსები")
+@Feature("ვალუტის გაცვლა")
+@Story("მითითებული პერიოდის კომერციული გაცვლითი კურსების ისტორია [FIN-T5]")
+@Owner("კახა ფუტკარაძე")
+public class CommercialExchangeRateHistoryTest extends CurrenciesBase {
 
-    @Test(priority = 1, description = "Open USD history modal window")
+    @Test(priority = 1, description = "კომერციული გაცვლითი კურსების ისტორიის გვერდზე გადასვლა")
     @Severity(SeverityLevel.CRITICAL)
-    @Description("Opens the USD exchange rate history modal for further validation.")
+    @Description("იხსნება არჩეული ვალუტის კომერციული გაცვლითი კურსების ისტორიის გვერდი")
     public void openUSDHistoryModalWindow() {
-        currenciesSteps.openUSDHistoryModal();
+        currenciesSteps
+                .openUSDHistoryModal()
+                .waitForHistoryModal();
     }
 
-    @Test(priority = 2, description = "Wait for the history modal to become visible")
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("Waits until the USD exchange rate history modal is fully loaded and visible.")
-    public void waitForHistoryModalToLoad() {
-        currenciesSteps.waitForHistoryModal();
-    }
-
-    @Test(priority = 3, description = "Select a random valid date range before today")
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("Selects a random valid date range prior to the current date for verifying exchange rate history data.")
-    public void selectRandomValidDateRangeBeforeToday() {
-        currenciesSteps.selectRandomDateRangeBeforeToday();
-    }
-
-    @Test(priority = 4, description = "Verify that displayed dates are within the selected range", retryAnalyzer = RetryAnalyzer.class)
+    @Test(priority = 2, description = "პერიოდის მითითება", retryAnalyzer = RetryAnalyzer.class)
     @Severity(SeverityLevel.CRITICAL)
     @RetryCount(count = 3)
-    @Description("Verifies that all displayed commercial exchange rate history entries correspond to the chosen date range.")
-    public void verifyDisplayedDatesAreWithinSelectedRange() {
-        currenciesSteps.verifyDatesInRange();
+    @Description("ისტორიაში ჩანს მხოლოდ მითითებული პერიოდის ჩანაწერები + საწყისი თარიღის წინა დღის ერთი ჩანაწერი")
+    public void selectRandomValidateRangeBeforeTodayAndVerifyDateRange() {
+        currenciesSteps
+                .selectRandomDateRangeBeforeToday()
+                .verifyDatesInRange();
     }
 }

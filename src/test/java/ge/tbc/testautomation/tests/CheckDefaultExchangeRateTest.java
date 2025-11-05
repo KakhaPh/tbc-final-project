@@ -2,40 +2,46 @@ package ge.tbc.testautomation.tests;
 
 import ge.tbc.testautomation.data.Constants;
 import ge.tbc.testautomation.runners.BaseTest;
+import ge.tbc.testautomation.steps.CookiesSteps;
+import ge.tbc.testautomation.steps.CurrenciesSteps;
 import io.qameta.allure.*;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-@Epic("Finance")
-@Feature("Currency Exchange")
-@Story("FIN-T1: Default Exchange Rate Verification")
-@Owner("Kakha Phutkaradze")
+@Epic("ფინანსები")
+@Feature("ვალუტის გაცვლა")
+@Story("ნაგულისხმევი ვალუტის კურსის შემოწმება [FIN-T1]")
+@Owner("კახა ფუტკარაძე")
 public class CheckDefaultExchangeRateTest extends BaseTest {
-
-    @Test(priority = 1, description = "Verify popular currencies section is displayed on page load")
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("Validates that the popular currencies section is visible when the currency exchange page loads")
-    public void verifyPopularCurrenciesAreDisplayed() {
-        currenciesSteps.verifyPopularCurrencies();
+    @BeforeClass
+    public void init() {
+        currenciesSteps = new CurrenciesSteps(page);
     }
 
-    @Test(priority = 2, description = "Verify default currency values match expected rates")
+    @Test(priority = 1, description = "ვებ გვერდზე შესვლა")
     @Severity(SeverityLevel.CRITICAL)
-    @Description("Validates that the default currency values displayed match the expected exchange rates")
-    public void verifyDefaultCurrencyValuesAreCorrect() {
-        currenciesSteps.verifyDefaultCurrencyValues();
+    @Description("იხსნება TBC მთავარ გვერდზე")
+    public void openTbcMainPage() {
+        page.navigate(Constants.BASE_URL);
     }
 
-    @Test(priority = 3, description = "Verify conversion calculation for 100 USD is accurate")
+    @Test(priority = 2, description = "ჩემი შემოთავაზებების მენიუ გახსნა")
     @Severity(SeverityLevel.CRITICAL)
-    @Description("Validates that converting 100 USD produces the correct calculated result")
-    public void verifyUsdConversionCalculationIsAccurate() {
-        currenciesSteps.verifyConversion(Constants.USD, 100, false);
+    @Description("იხსნება ჩემი შემოთავაზებების მენიუ")
+    public void openPersonalMenu() {
+        currenciesSteps.hoverOnHeaderPersonal();
     }
 
-    @Test(priority = 4, description = "Verify conversion result is correctly displayed below calculator")
+    @Test(priority = 3, description = "ვალუტის კურსების გვერდზე გადასვლა")
     @Severity(SeverityLevel.CRITICAL)
-    @Description("Validates that the USD conversion result is properly indicated below the calculator widget")
-    public void verifyConversionResultIsDisplayedBelowCalculator() {
-        currenciesSteps.checkValueIsCorrectlyIndicatedBelowCalculator(Constants.USD, false);
+    @Description("იხსნება კომერციული ვალლუტის გვერდი, 3 პოპულარული ვალუტის კურსით, default-ად USD/GEL, სწორად არის " +
+            "დაკონვერტირებული და კალკულატორის ქვევით სწორად არის მითითებული 1 USD-ს ღირებულება ლარში")
+    public void openAndValidateCommercialCurrencyRatePage() {
+        currenciesSteps
+                .openCurrenciesPage()
+                .verifyPopularCurrencies()
+                .verifyDefaultCurrencyValues()
+                .verifyConversion(Constants.USD, 100, false)
+                .checkValueIsCorrectlyIndicatedBelowCalculator(Constants.USD, false);
     }
 }
