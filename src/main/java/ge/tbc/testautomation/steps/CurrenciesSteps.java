@@ -7,6 +7,7 @@ import ge.tbc.testautomation.data.Constants;
 import ge.tbc.testautomation.helper.DateHelper;
 import ge.tbc.testautomation.pages.BasePage;
 import ge.tbc.testautomation.pages.CurrenciesPage;
+import io.qameta.allure.Step;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -25,16 +26,19 @@ public class CurrenciesSteps {
         this.basePage = new BasePage(page);
     }
 
+    @Step("Hover on header Personal menu")
     public CurrenciesSteps hoverOnHeaderPersonal() {
         basePage.headerPersonal.hover();
         return this;
     }
 
+    @Step("Open Currencies page")
     public CurrenciesSteps openCurrenciesPage() {
         currenciesPage.currencyBtn.click();
         return this;
     }
 
+    @Step("Verify popular currencies are displayed")
     public CurrenciesSteps verifyPopularCurrencies() {
         currenciesPage.popularCurrencyItems.first().waitFor(new Locator.WaitForOptions()
                 .setState(WaitForSelectorState.VISIBLE));
@@ -61,6 +65,7 @@ public class CurrenciesSteps {
         return this;
     }
 
+    @Step("Verify default currency values (USD and GEL)")
     public CurrenciesSteps verifyDefaultCurrencyValues() {
         String firstCurrency = currenciesPage.currencySelectFirst.innerText().trim();
         String secondCurrency = currenciesPage.currencySelectSecond.innerText().trim();
@@ -74,6 +79,7 @@ public class CurrenciesSteps {
         return this;
     }
 
+    @Step("Verify conversion for {currencyCode} with amount {inputAmount}, reversed: {isReversed}")
     public CurrenciesSteps verifyConversion(String currencyCode, double inputAmount, boolean isReversed) {
         double rate = Double.parseDouble(currenciesPage.buyRate(currencyCode).innerText().trim());
 
@@ -110,6 +116,7 @@ public class CurrenciesSteps {
         return this;
     }
 
+    @Step("Check value is correctly indicated below calculator for {currencyCode}, reversed: {isReversed}")
     public void checkValueIsCorrectlyIndicatedBelowCalculator(String currencyCode, boolean isReversed) {
         Locator rateLocator = currenciesPage.buyRate(currencyCode);
         Locator sellRateLocator = currenciesPage.sellRate(currencyCode);
@@ -152,37 +159,44 @@ public class CurrenciesSteps {
 
     }
 
+    @Step("Select  currency dropdown")
     public CurrenciesSteps selectOneCurrency() {
         currenciesPage.currencySelectFirst.click();
         return this;
     }
 
+    @Step("Select EUR currency")
     public CurrenciesSteps selectEUR() {
         currenciesPage.selectEur.click();
         return this;
     }
 
+    @Step("Enter amount {amount} ")
     public CurrenciesSteps enterDifferentAmountInFirstInput(double amount) {
         currenciesPage.currencyInputOne.fill(String.valueOf(amount));
         return this;
     }
 
+    @Step("Change currency conversion direction")
     public CurrenciesSteps changeCurrencyConversionCondition() {
         currenciesPage.conditionChangeBtn.click();
         return this;
     }
 
+    @Step("Open USD history ")
     public CurrenciesSteps openUSDHistoryModal() {
         currenciesPage.usdHistoryModal.click();
         return this;
     }
 
+    @Step("Wait for history modal to be visible")
     public void waitForHistoryModal() {
         currenciesPage.usdHistoryModal.waitFor(new Locator.WaitForOptions()
                 .setState(WaitForSelectorState.VISIBLE)
                 .setTimeout(Constants.MODAL_TIMEOUT));
     }
 
+    @Step("Select random date range before today")
     public CurrenciesSteps selectRandomDateRangeBeforeToday() {
         waitForDateInput();
 
@@ -198,6 +212,7 @@ public class CurrenciesSteps {
         return this;
     }
 
+    @Step("Verify all dates are within selected range")
     public CurrenciesSteps verifyDatesInRange() {
         validateDateSelection();
         waitForDataLoad();
@@ -211,39 +226,45 @@ public class CurrenciesSteps {
 
         return this;
     }
-
+    @Step("Wait for date input field to be visible")
     private void waitForDateInput() {
         currenciesPage.selectHistoryDatesInput.waitFor(new Locator.WaitForOptions()
                 .setState(WaitForSelectorState.VISIBLE)
                 .setTimeout(Constants.INPUT_TIMEOUT));
     }
 
+    @Step("Generate random days between {min} and {max}")
     private int generateRandomDays(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
+    @Step("Format date range: {start} - {end}")
     private String formatDateRange(LocalDate start, LocalDate end) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATE_FORMAT);
         return start.format(formatter) + Constants.DATE_RANGE_SEPARATOR + end.format(formatter);
     }
 
+    @Step("Fill date range input with: {dateRange}")
     private void fillDateRange(String dateRange) {
         currenciesPage.selectHistoryDatesInput.fill(dateRange);
         currenciesPage.selectHistoryDatesInput.press(Constants.ENTER_KEY);
     }
 
+    @Step("Log selected date range: {dateRange}")
     private void logDateSelection(String dateRange) {
         System.out.println(String.format(Constants.LOG_SELECTED_RANGE, dateRange));
         System.out.println(String.format(Constants.LOG_START_DATE, startDate));
         System.out.println(String.format(Constants.LOG_END_DATE, endDate));
     }
 
+    @Step("Validate that dates have been selected")
     private void validateDateSelection() {
         if (startDate == null || endDate == null) {
             throw new IllegalStateException(Constants.DATES_NOT_SELECTED_ERROR);
         }
     }
 
+    @Step("Wait for data to load")
     private void waitForDataLoad() {
         try {
             Thread.sleep(Constants.DATA_LOAD_WAIT);
@@ -253,10 +274,12 @@ public class CurrenciesSteps {
         }
     }
 
+    @Step("Fetch history dates from table")
     private List<String> fetchHistoryDates() {
         return currenciesPage.historyDateCells.allInnerTexts();
     }
 
+    @Step("Validate history data is not empty")
     private void validateHistoryData(List<String> historyDates) {
         if (historyDates.isEmpty()) {
             throw new AssertionError(Constants.NO_HISTORY_RECORDS_ERROR);
@@ -265,6 +288,7 @@ public class CurrenciesSteps {
         System.out.println(String.format(Constants.LOG_EXPECTED_RANGE, startDate, endDate));
     }
 
+    @Step("Validate all dates from history")
     private DateValidationResult validateDates(List<String> historyDates) {
         DateValidationResult result = new DateValidationResult();
 
@@ -279,6 +303,7 @@ public class CurrenciesSteps {
         return result;
     }
 
+    @Step("Process date entry: {dateText}")
     private void processDateEntry(String dateText, DateValidationResult result) {
         try {
             LocalDate parsedDate = parseDateFromText(dateText);
@@ -296,6 +321,7 @@ public class CurrenciesSteps {
         }
     }
 
+    @Step("Parse date from text: {dateText}")
     private LocalDate parseDateFromText(String dateText) {
         String datePart = extractDatePart(dateText);
         String[] parts = datePart.split("\\s+");
@@ -316,10 +342,12 @@ public class CurrenciesSteps {
         return LocalDate.of(year, month, day);
     }
 
+    @Step("Extract date part from: {dateText}")
     private String extractDatePart(String dateText) {
         return dateText.split(",")[0].trim();
     }
 
+    @Step("Determine year for month: {month}")
     private int determineYear(int month) {
         if (startDate.getYear() == endDate.getYear()) {
             return startDate.getYear();
@@ -328,10 +356,12 @@ public class CurrenciesSteps {
         return (month >= startDate.getMonthValue()) ? startDate.getYear() : endDate.getYear();
     }
 
+    @Step("Check if date {date} is in range")
     private boolean isDateInRange(LocalDate date) {
         return !date.isBefore(startDate) && !date.isAfter(endDate);
     }
 
+    @Step("Log validation summary")
     private void logValidationSummary(DateValidationResult result) {
         System.out.println(Constants.LOG_SUMMARY_HEADER);
         System.out.println(String.format(Constants.LOG_TOTAL_CHECKED, result.getTotalChecked()));
@@ -340,6 +370,7 @@ public class CurrenciesSteps {
         System.out.println(String.format(Constants.LOG_PARSE_ERRORS, result.getParseErrors()));
     }
 
+    @Step("Handle validation result")
     private void handleValidationResult(DateValidationResult result) {
         if (result.hasParseErrorsOnly()) {
             throw new AssertionError(String.format(
