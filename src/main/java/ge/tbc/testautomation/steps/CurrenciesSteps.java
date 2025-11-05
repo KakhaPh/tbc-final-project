@@ -30,11 +30,12 @@ public class CurrenciesSteps {
         return this;
     }
 
-    public void openCurrenciesPage() {
+    public CurrenciesSteps openCurrenciesPage() {
         currenciesPage.currencyBtn.click();
+        return this;
     }
 
-    public void verifyPopularCurrencies() {
+    public CurrenciesSteps verifyPopularCurrencies() {
         currenciesPage.popularCurrencyItems.first().waitFor(new Locator.WaitForOptions()
                 .setState(WaitForSelectorState.VISIBLE));
 
@@ -57,9 +58,10 @@ public class CurrenciesSteps {
                 throw new AssertionError(Constants.NOT_FOUND + expectedCurrency);
             }
         }
+        return this;
     }
 
-    public void verifyDefaultCurrencyValues() {
+    public CurrenciesSteps verifyDefaultCurrencyValues() {
         String firstCurrency = currenciesPage.currencySelectFirst.innerText().trim();
         String secondCurrency = currenciesPage.currencySelectSecond.innerText().trim();
 
@@ -69,7 +71,7 @@ public class CurrenciesSteps {
         if (!secondCurrency.equals(Constants.GEL)) {
             throw new AssertionError(Constants.SECOND_DEFAULT_CURRENCY + secondCurrency);
         }
-
+        return this;
     }
 
     public CurrenciesSteps verifyConversion(String currencyCode, double inputAmount, boolean isReversed) {
@@ -108,7 +110,7 @@ public class CurrenciesSteps {
         return this;
     }
 
-    public CurrenciesSteps checkValueIsCorrectlyIndicatedBelowCalculator(String currencyCode, boolean isReversed) {
+    public void checkValueIsCorrectlyIndicatedBelowCalculator(String currencyCode, boolean isReversed) {
         Locator rateLocator = currenciesPage.buyRate(currencyCode);
         Locator sellRateLocator = currenciesPage.sellRate(currencyCode);
 
@@ -148,7 +150,6 @@ public class CurrenciesSteps {
             throw new AssertionError(Constants.EXPECTED + expectedValue + Constants.BUT_GOT + actualValue);
         }
 
-        return this;
     }
 
     public CurrenciesSteps selectOneCurrency() {
@@ -176,11 +177,10 @@ public class CurrenciesSteps {
         return this;
     }
 
-    public CurrenciesSteps waitForHistoryModal() {
+    public void waitForHistoryModal() {
         currenciesPage.usdHistoryModal.waitFor(new Locator.WaitForOptions()
                 .setState(WaitForSelectorState.VISIBLE)
                 .setTimeout(Constants.MODAL_TIMEOUT));
-        return this;
     }
 
     public CurrenciesSteps selectRandomDateRangeBeforeToday() {
