@@ -6,6 +6,13 @@ import java.util.List;
 public class Constants {
     public static final String BASE_URL = "https://www.tbcbank.ge";
 
+    public static final String
+            PERSONAL = "ჩემთვის",
+            AUTOlOAN="ავტო სესხი",
+            DEFAULT_INCOME="1500",
+            INCOME = "1300",
+            LOAN ="300";
+
     public static final List<String> POPULAR_CURRENCIES = Arrays.asList("USD", "EUR", "GBP");
     public static final String USD = "USD";
     public static final String EUR = "EUR";
