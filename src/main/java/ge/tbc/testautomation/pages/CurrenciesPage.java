@@ -25,7 +25,7 @@ public class CurrenciesPage {
 
     public CurrenciesPage(Page page) {
         this.page = page;
-        this.currencyBtn = page.locator("//tbcx-pw-mega-menu//a[contains(@href, '/treasury-products')]");
+        this.currencyBtn = page.locator("//tbcx-pw-mega-menu//a[contains(@href, '/treasury-products')]").first();
         this.popularCurrencyItems = page.locator("tbcx-pw-popular-currency-item");
         this.openSelectCurrency = page.locator("//tbcx-dropdown-selector");
         this.selectEur = page.locator("//tbcx-dropdown-popover-item//div[contains(text(), 'EUR')]");
