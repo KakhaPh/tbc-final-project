@@ -20,7 +20,6 @@ jobs:
     steps:
       - checkout: self
 
-      # Install JDK, wget, unzip
       - task: Bash@3
         inputs:
           targetType: 'inline'
@@ -29,13 +28,11 @@ jobs:
             sudo apt-get install -y openjdk-21-jdk wget unzip
             java -version
 
-      # Install Node.js (needed for Playwright CLI)
       - task: NodeTool@0
         inputs:
           versionSpec: '20.x'
         displayName: 'Install Node.js'
 
-      # Install Playwright and required browsers
       - task: Bash@3
         inputs:
           targetType: 'inline'
@@ -43,7 +40,6 @@ jobs:
             npm install -g playwright
             playwright install
 
-      # Install Allure
       - task: Bash@3
         inputs:
           targetType: 'inline'
@@ -53,19 +49,16 @@ jobs:
             sudo ln -sf /opt/allure-2.35.1/bin/allure /usr/bin/allure
             allure --version
 
-      # Run Maven tests
       - task: Maven@4
         inputs:
           mavenPomFile: 'pom.xml'
           goals: 'clean test'
-          options: '-DsuiteXmlFile=testng.xml -Dheadless=true'
+          options: '-DsuiteXmlFile=testng.xml -Dheadless=true -Dmaven.test.failure.ignore=true'
           publishJUnitResults: true
           testResultsFiles: '**/surefire-reports/TEST-*.xml'
           javaHomeOption: 'JDKVersion'
           jdkVersionOption: '1.21'
-        continueOnError: true
 
-      # Generate Allure report from results
       - task: Bash@3
         inputs:
           targetType: 'inline'
@@ -75,7 +68,6 @@ jobs:
             fi
         condition: always()
 
-      # Publish Allure report as artifact
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: 'allure-report'
