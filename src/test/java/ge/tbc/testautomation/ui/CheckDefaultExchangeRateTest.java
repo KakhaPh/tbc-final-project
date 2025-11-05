@@ -1,8 +1,7 @@
-package ge.tbc.testautomation.tests;
+package ge.tbc.testautomation.ui;
 
 import ge.tbc.testautomation.data.Constants;
 import ge.tbc.testautomation.runners.BaseTest;
-import ge.tbc.testautomation.steps.CookiesSteps;
 import ge.tbc.testautomation.steps.CurrenciesSteps;
 import io.qameta.allure.*;
 import org.testng.annotations.BeforeClass;

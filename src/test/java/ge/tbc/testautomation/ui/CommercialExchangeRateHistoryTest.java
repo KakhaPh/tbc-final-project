@@ -1,6 +1,6 @@
-package ge.tbc.testautomation.tests;
+package ge.tbc.testautomation.ui;
 
-import ge.tbc.testautomation.runners.CurrenciesBase;
+import ge.tbc.testautomation.runners.Currencies;
 import ge.tbc.testautomation.utils.RetryAnalyzer;
 import ge.tbc.testautomation.utils.RetryCount;
 import io.qameta.allure.*;
@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 @Feature("ვალუტის გაცვლა")
 @Story("მითითებული პერიოდის კომერციული გაცვლითი კურსების ისტორია [FIN-T5]")
 @Owner("კახა ფუტკარაძე")
-public class CommercialExchangeRateHistoryTest extends CurrenciesBase {
+public class CommercialExchangeRateHistoryTest extends Currencies {
 
     @Test(priority = 1, description = "კომერციული გაცვლითი კურსების ისტორიის გვერდზე გადასვლა")
     @Severity(SeverityLevel.CRITICAL)

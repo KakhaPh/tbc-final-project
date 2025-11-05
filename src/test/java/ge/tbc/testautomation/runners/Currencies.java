@@ -3,7 +3,7 @@ package ge.tbc.testautomation.runners;
 import ge.tbc.testautomation.steps.CurrenciesSteps;
 import org.testng.annotations.BeforeClass;
 
-public class CurrenciesBase extends BaseTest {
+public class Currencies extends BaseTest {
 
     protected CurrenciesSteps currenciesSteps;
 

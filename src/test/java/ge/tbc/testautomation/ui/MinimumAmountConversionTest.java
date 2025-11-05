@@ -1,7 +1,7 @@
-package ge.tbc.testautomation.tests;
+package ge.tbc.testautomation.ui;
 
 import ge.tbc.testautomation.data.Constants;
-import ge.tbc.testautomation.runners.CurrenciesBase;
+import ge.tbc.testautomation.runners.Currencies;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 @Feature("ვალუტის შეცვლა")
 @Story("მინიმალური თანხის კონვერტაცია [FIN-T3]")
 @Owner("კახა ფუტკარაძე")
-public class MinimumAmountConversionTest extends CurrenciesBase {
+public class MinimumAmountConversionTest extends Currencies {
 
     @Test(description = "ვალუტაში გაწერილი თანხის ოდენობის შეცვლა")
     @Severity(SeverityLevel.MINOR)
